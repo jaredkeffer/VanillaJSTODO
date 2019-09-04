@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>New Tab</title>
+</head>
+
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+    #pageTitle {
+        color: green;
+        font-size: 40px;
+    }
+    #pageContainer {
+        background: purple;
+        height: 100%;
+        width: 100%;
+    }
+    .page {
+        background: blue;
+        height: auto;
+        width: 700px;
+        margin-top: 5px;
+        margin-left: 20px;
+    }
+    
+    .card {
+        background: red;
+        height: auto;
+        width: 150px;
+        margin-top: 5px;
+        margin-left: 20px;
+    }
+    .item {
+        background: yellow;
+        height: auto;
+        width: 100px;
+        margin-top: 2px;
+        margin-left: 20px;
+    }
+    .input {
+        color: white;
+        background: black;
+        height: auto;
+        width: 100px;
+        margin-top: 1px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+    }
+    .button {
+        color: white;
+        background: black;
+        border: none;
+        outline: none;
+        height: auto;
+        width: 150px;
+        font-size: 24px;
+    }   
+</style>
+
+<body>
+    <div id='pageContainer'>
+        <h1 id='pageTitle'>Pages</h1>
+        <button id='newPage' class='button'>New Page</button>
+        <button id='dataPrinter' class='button'>Log Data</button>
+    </div>
+</body>
+
+<script>
+    let DATA = [];
+    let dataPrinter = document.getElementById('dataPrinter');
+    dataPrinter.addEventListener('click', function(){
+        Save();
+        InitializeData();
+    });
+    pageContainer = document.getElementById('pageContainer');
+    pageButton = document.getElementById('newPage');
+    pageButton.addEventListener('click', createPage);
+    function createPage() {
+        let page = document.createElement('div');
+        page.classList.add('page');
+
+        let newCardButton = document.createElement('button');
+        newCardButton.classList.add('button');
+    
+        let newCardText = document.createTextNode('New Card');
+        newCardButton.appendChild(newCardText);
+        page.appendChild(newCardButton);
+        pageContainer.appendChild(page);
+
+        let cardcontainer = document.createElement('div');
+        
+        newCardButton.addEventListener('click', function() {
+            createCard(page);
+        });
+
+        return page;
+    }
+    function createCard(_page) {
+        let card = document.createElement('div');
+        card.classList.add('card');
+
+        let newItemButton = document.createElement('button');
+        newItemButton.classList.add('button');
+        
+        let newItemText = document.createTextNode('New Item');
+        newItemButton.appendChild(newItemText);
+        card.appendChild(newItemButton);
+        _page.appendChild(card);
+
+        newItemButton.addEventListener('click', function() {
+            createItem(card, '');
+        });
+
+        return card;
+    }
+    function createItem(_card, _text) {
+        let itemText = _text;
+
+        let item = document.createElement('div');
+        item.classList.add('item');
+
+        let itemInput = document.createElement('div');
+        itemInput.classList.add('input');
+        itemInput.innerText = itemText;
+        item.appendChild(itemInput);
+        _card.appendChild(item);
+
+        itemInput.setAttribute('contentEditable', 'true');
+        itemInput.setAttribute('onChange', 'changeItemText');
+
+        itemInput.addEventListener('input', function() {
+            itemText = itemInput.innerText;
+        });
+    }
+    function createDeleteButton(_parent) {
+        
+    }
+    function Save() {
+        DATA = [];
+        let PAGES = [];
+        let pages = Array.from(document.getElementsByClassName('page'));
+        pages.forEach(function(page) {
+            let cards = Array.from(page.getElementsByClassName('card'));
+            let CARDS = [];
+            cards.forEach(function(card){
+                let items = Array.from(card.getElementsByClassName('item'));
+                let ITEMS = [];
+                items.forEach(function(item){
+                    let itemContent = {text: item.innerText};
+                    ITEMS.push(itemContent);
+                });
+                CARDS.push(ITEMS);
+            });
+            PAGES.push(CARDS);
+        });
+        DATA.push(PAGES);
+        window.localStorage.setItem('DATA', JSON.stringify(DATA));
+    }
+    function InitializeData() {
+        let _DATA = JSON.parse(window.localStorage.getItem('DATA'));
+        for (i = 0; i < _DATA[0].length; i++) {
+            let _page = createPage();
+            for (j = 0; j < _DATA[0][i].length; j++) {
+                let _card = createCard(_page);
+                for (k = 0; k < _DATA[0][i][j].length; k++) {
+                    let _text = _DATA[0][i][j][k].text;
+                    createItem(_card, _text);
+                }
+            }
+        } 
+    }
+</script>
+
+</html>
