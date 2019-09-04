@@ -98,7 +98,7 @@
         newCardButton.addEventListener('click', function() {
             createCard(page);
         });
-
+        createDeleteButton(page);
         return page;
     }
     function createCard(_page) {
@@ -116,7 +116,7 @@
         newItemButton.addEventListener('click', function() {
             createItem(card, '');
         });
-
+        createDeleteButton(card);
         return card;
     }
     function createItem(_card, _text) {
@@ -136,10 +136,21 @@
 
         itemInput.addEventListener('input', function() {
             itemText = itemInput.innerText;
-        });
+        });    
+        createDeleteButton(item);
     }
     function createDeleteButton(_parent) {
-        // let deleteButton = 
+        let deleteButton = document.createElement('button');
+        deleteButton.classList.add('button');
+
+        let deleteButtonText = document.createTextNode('Delete');
+        deleteButton.appendChild(deleteButtonText);
+
+        _parent.appendChild(deleteButton);
+
+        deleteButton.addEventListener('click', function(){
+            _parent.remove();
+        });
     }
     function Save() {
         DATA = [];
@@ -152,7 +163,7 @@
                 let items = Array.from(card.getElementsByClassName('item'));
                 let ITEMS = [];
                 items.forEach(function(item){
-                    let itemContent = {text: item.innerText};
+                    let itemContent = {text: item.childNodes[0].innerText};
                     ITEMS.push(itemContent);
                 });
                 CARDS.push(ITEMS);
