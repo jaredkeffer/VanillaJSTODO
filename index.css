@@ -6,7 +6,7 @@
     max-width: 100%;
 }
 html, body {
-    /* cursor: url('./save_icon.png'), pointer; */
+    scroll-behavior: smooth;
 }
 
 body::-webkit-scrollbar { width: 0 !important }
@@ -22,29 +22,38 @@ body { -ms-overflow-style: none; }
     max-width: 100%;
     position: fixed;
 }
+#settingsGear {
+    opacity: 0.6;
+    float: right;
+    margin-right: 1vw;
+    margin-bottom: 1vw;
+    width: 4vw;
+}
 #transport {
     position: fixed;
     bottom: 0;
     right: 0;
 }
 .transportButton {
-    
     background: rgba(255,255,255,0);
     border: none;
     outline: none;
     height: auto;
-    font-size: 3vw;
+    font-size: 2vw;
     text-align: right;
     margin-right: 1vw;
     margin-bottom: 1vw;
-    padding: 1vw;
+}
+#mainMenu {
+    text-align: right;
+    width: 12vw;
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 #pageContainer {
-    height: 100%;
+    /* height: 100%; */
     width: 100vw;
     max-width: 100%;
     position: relative;
-    /* overflow: auto; */
 }
 .pageTransport {
     font-size: 4vw;
@@ -59,7 +68,6 @@ body { -ms-overflow-style: none; }
     right: 0;
     top: 0;
     position: relative;
-    /* display: inline-block; */
 }
 .pageButton {
     font-size: 4vw;
@@ -76,39 +84,39 @@ body { -ms-overflow-style: none; }
     float: left;
     margin-left: 1vw;
     margin-top: 0.5vw;
+    margin-bottom: 2.5vw;
     padding: 0.5vw;
-    padding-bottom: 2vw;
 }
 .cardButton {
     font-size: 4vw;
     width: 2vw;
     float: left;
     position: absolute;
-    bottom: 0;
+    bottom: -3.5vw;
     left: 0;
     margin-left: 0.5vw;
-    /* transform: translate(5px, -5px); */
 }
 .cardDeleteButton {
     font-size: 4vw;
     width: 2vw;
     float: left;
     position: absolute;
-    bottom: 0;
+    bottom: -3.5vw;
     right: 0.5vw;
-    transform: translate(5px, 0px);
+    transform: translate(0.5vw, 0px);
 }
 .item {
     float: left;
     height: auto;
     width: 20vw;
-    font-size: 4vw;
-    /* margin-bottom: 1vw; */
+    margin-bottom: 0.5vw;
 }
 .itemButton {
     width: 2vw;
+    font-size: 4vw;
+    height: 1vw;
     float: right;
-    transform: translate(5px, -12px);
+    transform: translate(0.5vw, -1.5vw);
 }
 .input {
     color: white;
@@ -121,7 +129,6 @@ body { -ms-overflow-style: none; }
     font-size: 1.5vw;
     float: left;
     padding: 0.5vw;
-    margin-bottom: 0.6vw;
 }
 .deleteButton {
     float: right;
@@ -131,7 +138,6 @@ body { -ms-overflow-style: none; }
     user-select: none;
     transition-duration: 0.2s;
 }  
-/* , .deleteButton:hover, .transportButton:hover  */
 .button:hover {
     color: rgba(255,255,255,0.8);
     /* background: -webkit-linear-gradient(90deg, rgba(247,109,229,1) 0%, rgba(255,0,179,1) 42%, rgba(238,218,174,1) 100%);
@@ -140,19 +146,51 @@ body { -ms-overflow-style: none; }
 }
 .buttonActive {
     color: white;
-    /* text-align: center; */
     -webkit-animation: glow 1s ease-in-out infinite alternate;
     -moz-animation: glow 1s ease-in-out infinite alternate;
     animation: glow 1s ease-in-out infinite alternate;
-  }
-  
-  @-webkit-keyframes glow {
+}  
+@-webkit-keyframes glow {
     from {
         text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
     }
-    
+
     to {
         text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
     }
-
+}
+.rotateLeft {
+    -webkit-animation: rotateLeft linear 0.3s;
+    -moz-animation: rotateLeft linear 0.3s;
+    animation: rotateLeft linear 0.3s;
+}
+@-webkit-keyframes rotateLeft {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(-90deg);
+    }
+}
+.rotateRight {
+    -webkit-animation: rotateRight linear 0.3s;
+    -moz-animation: rotateRight linear 0.3s;
+    animation: rotateRight linear 0.3s;
+}
+@-webkit-keyframes rotateRight {
+    from {
+        -webkit-transform: rotate(-90deg);
+    }
+    to {
+        -webkit-transform: rotate(0deg);
+    }
+}
+.openMenu {
+    transform: translateX(0vw);
+}
+.closeMenu {
+    transform: translateX(20vw);
+}
+.closeMenuInitial {
+    transform: translateX(20vw);
 }

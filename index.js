@@ -16,7 +16,25 @@ pageButton = document.getElementById('newPage');
 pageButton.addEventListener('click', createPage);
 Glow(pageButton);
 
+let menuOpen = false;
+let mainMenu = document.getElementById('mainMenu');
+let settingsGear = document.getElementById('settingsGear');
+settingsGear.draggable = false;
+settingsGear.addEventListener('click', function(){
+    if (menuOpen === false) {
+        menuOpen = true;
+        openMenu(mainMenu);
+        settingsGear.classList.remove('rotateRight');
+        settingsGear.classList.add('rotateLeft');
+    } else if (menuOpen === true) {
+        menuOpen = false;
+        closeMenu(mainMenu);
+        settingsGear.classList.remove('rotateLeft');
+        settingsGear.classList.add('rotateRight');
+    }
+});
 
+autoLockScroll();
 
 function createPage() {
     let page = document.createElement('div');
@@ -88,6 +106,7 @@ function createItem(_card, _text) {
     });    
     let deleteButton = createDeleteButton(item);
     deleteButton.classList.add('itemButton');
+    itemInput.focus();
 }
 
 function createDeleteButton(_parent) {
@@ -148,6 +167,7 @@ function GetTotalPages() {
     let _totalPages = Array.from(document.getElementsByClassName('page'));
     return _totalPages;
 }
+
 function Glow(element) {
     element.addEventListener('mousedown', function(){
         element.classList.add('buttonActive');
@@ -158,5 +178,38 @@ function Glow(element) {
     element.addEventListener('mouseleave', function(){
         element.classList.remove('buttonActive');
     });
+}
 
+function openMenu(menu) {
+    menu.classList.remove('closeMenu');
+    menu.classList.remove('closeMenuInitial');
+    menu.classList.add('openMenu');
+}
+
+function closeMenu(menu) {
+    menu.classList.remove('openMenu');
+    menu.classList.add('closeMenu');
+}
+function autoLockScroll() {
+    let isScrolling;
+    window.addEventListener('scroll', function ( event ) {
+        window.clearTimeout( isScrolling );
+        isScrolling = setTimeout(function() {
+            scrollMagnet();
+        }, 400);
+    }, false);
+}
+function scrollMagnet() {
+    let _pages = GetTotalPages();
+    let _scrollPos = window.scrollY;
+    let _closestPageIndex = 0;
+    let _minDist = 100000;
+    for (i = 0; i < _pages.length; i++) {
+        let _currentPagePos = Math.abs(_pages[i].getBoundingClientRect().top);
+        if (_currentPagePos < _minDist) {
+            _minDist = _currentPagePos;
+            _closestPageIndex = i;
+        }
+    }
+    window.scrollTo(0, _pages[_closestPageIndex].offsetTop);
 }
