@@ -1,0 +1,158 @@
+* {
+    font-family: Quicksand, sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    max-width: 100%;
+}
+html, body {
+    /* cursor: url('./save_icon.png'), pointer; */
+}
+
+body::-webkit-scrollbar { width: 0 !important }
+body { overflow: -moz-scrollbars-none; }
+body { -ms-overflow-style: none; }
+
+
+#background {
+    background: rgb(148,187,233);
+    background: linear-gradient(90deg, rgba(148,187,233,1) 0%, rgba(238,174,202,1) 100%);
+    height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    position: fixed;
+}
+#transport {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+.transportButton {
+    
+    background: rgba(255,255,255,0);
+    border: none;
+    outline: none;
+    height: auto;
+    font-size: 3vw;
+    text-align: right;
+    margin-right: 1vw;
+    margin-bottom: 1vw;
+    padding: 1vw;
+}
+#pageContainer {
+    height: 100%;
+    width: 100vw;
+    max-width: 100%;
+    position: relative;
+    /* overflow: auto; */
+}
+.pageTransport {
+    font-size: 4vw;
+    height: auto;
+    float: right;
+    display: block;
+    width: 100vw;
+}
+.page {
+    width: 100vw;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    position: relative;
+    /* display: inline-block; */
+}
+.pageButton {
+    font-size: 4vw;
+    width: auto;
+    float: right;
+    margin-right: 1vw;
+}
+.card {
+    height: auto;
+    width: 15vw;
+    font-size: 2vw;
+    background: rgba(255,255,255,0.2);
+    position: relative;
+    float: left;
+    margin-left: 1vw;
+    margin-top: 0.5vw;
+    padding: 0.5vw;
+    padding-bottom: 2vw;
+}
+.cardButton {
+    font-size: 4vw;
+    width: 2vw;
+    float: left;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: 0.5vw;
+    /* transform: translate(5px, -5px); */
+}
+.cardDeleteButton {
+    font-size: 4vw;
+    width: 2vw;
+    float: left;
+    position: absolute;
+    bottom: 0;
+    right: 0.5vw;
+    transform: translate(5px, 0px);
+}
+.item {
+    float: left;
+    height: auto;
+    width: 20vw;
+    font-size: 4vw;
+    /* margin-bottom: 1vw; */
+}
+.itemButton {
+    width: 2vw;
+    float: right;
+    transform: translate(5px, -12px);
+}
+.input {
+    color: white;
+    background: rgb(247,109,229);
+    background: linear-gradient(90deg, rgba(247,109,229,1) 0%, rgba(255,0,179,1) 42%, rgba(238,218,174,1) 100%);
+    height: auto;
+    width: 12vw;
+    border: none;
+    outline: none;
+    font-size: 1.5vw;
+    float: left;
+    padding: 0.5vw;
+    margin-bottom: 0.6vw;
+}
+.deleteButton {
+    float: right;
+}
+.button {
+    color: rgba(255,255,255,0.6);
+    user-select: none;
+    transition-duration: 0.2s;
+}  
+/* , .deleteButton:hover, .transportButton:hover  */
+.button:hover {
+    color: rgba(255,255,255,0.8);
+    /* background: -webkit-linear-gradient(90deg, rgba(247,109,229,1) 0%, rgba(255,0,179,1) 42%, rgba(238,218,174,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;height: auto; */
+}
+.buttonActive {
+    color: white;
+    /* text-align: center; */
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+  
+  @-webkit-keyframes glow {
+    from {
+        text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+    }
+    
+    to {
+        text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+    }
+
+}
