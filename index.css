@@ -4,23 +4,39 @@
     padding: 0;
     position: relative;
     max-width: 100%;
+    z-index: 0;
 }
-html, body {
+html, body, .card {
     scroll-behavior: smooth;
+    /* overflow: hidden; */
+    /* overscroll-behavior: none; */
+}
+#mainContainer {
+    overflow: auto;
 }
 
 body::-webkit-scrollbar { width: 0 !important }
 body { overflow: -moz-scrollbars-none; }
 body { -ms-overflow-style: none; }
 
+.card::-webkit-scrollbar { width: 0 !important }
+.card { overflow: -moz-scrollbars-none; }
+.card { -ms-overflow-style: none; }
+
+.page::-webkit-scrollbar { width: 0 !important }
+.page { overflow: -moz-scrollbars-none; }
+.page { -ms-overflow-style: none; }
 
 #background {
     background: rgb(148,187,233);
     background: linear-gradient(90deg, rgba(148,187,233,1) 0%, rgba(238,174,202,1) 100%);
-    height: 100vh;
+    height: 120vh;
     width: 100vw;
+    overflow: hidden;
+    background-repeat: repeat;
     max-width: 100%;
     position: fixed;
+    background-size: auto;
 }
 #settingsGear {
     opacity: 0.6;
@@ -39,18 +55,19 @@ body { -ms-overflow-style: none; }
     border: none;
     outline: none;
     height: auto;
-    font-size: 2vw;
+    font-size: 1.8vw;
     text-align: right;
     margin-right: 1vw;
     margin-bottom: 1vw;
 }
 #mainMenu {
     text-align: right;
-    width: 12vw;
+    width: 15vw;
     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 #pageContainer {
-    /* height: 100%; */
+    height: 100vh;
+    height: auto;
     width: 100vw;
     max-width: 100%;
     position: relative;
@@ -65,9 +82,11 @@ body { -ms-overflow-style: none; }
 .page {
     width: 100vw;
     height: 100vh;
+    /* max-height: 100%; */
     right: 0;
     top: 0;
     position: relative;
+    overflow: auto;
 }
 .pageButton {
     font-size: 4vw;
@@ -77,58 +96,83 @@ body { -ms-overflow-style: none; }
 }
 .card {
     height: auto;
+    max-height: 97vh;
+    overflow: auto;
     width: 15vw;
     font-size: 2vw;
     background: rgba(255,255,255,0.2);
     position: relative;
+    /* position: absolute; */
     float: left;
     margin-left: 1vw;
     margin-top: 0.5vw;
-    margin-bottom: 2.5vw;
-    padding: 0.5vw;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    padding-top: 0.5vw;
 }
 .cardButton {
     font-size: 4vw;
     width: 2vw;
     float: left;
     position: absolute;
-    bottom: -3.5vw;
+    top: -1.5vw;
     left: 0;
+    height: 1vw;
     margin-left: 0.5vw;
+    margin-bottom: 10vw;
+    display: none;
 }
 .cardDeleteButton {
     font-size: 4vw;
     width: 2vw;
     float: left;
-    position: absolute;
-    bottom: -3.5vw;
+    top: -1.5vw;
     right: 0.5vw;
+    height: 1vw;
+    position: absolute;
     transform: translate(0.5vw, 0px);
+    /* display: none; */
+    visibility: none;
+}
+.cardTitle {
+
 }
 .item {
     float: left;
     height: auto;
-    width: 20vw;
+    margin-right: 3vw;
     margin-bottom: 0.5vw;
+    /* margin-top: 0.5vw; */
 }
 .itemButton {
-    width: 2vw;
-    font-size: 4vw;
-    height: 1vw;
+    width: 1.5vw;
+    height: 0.4vw;
+    font-size: 1vw;
     float: right;
-    transform: translate(0.5vw, -1.5vw);
+    opacity: 0.6;
+    background: white;
+    border-radius: 3px;
+    transform: translate(13.25vw, 0.25vw);
+    position: absolute;
+    /* position: relative; */
+    transition-duration: 0.3s;
+    z-index: 10;
+    display: none;
 }
 .input {
     color: white;
     background: rgb(247,109,229);
     background: linear-gradient(90deg, rgba(247,109,229,1) 0%, rgba(255,0,179,1) 42%, rgba(238,218,174,1) 100%);
     height: auto;
-    width: 12vw;
+    width: 14vw;
     border: none;
     outline: none;
-    font-size: 1.5vw;
+    font-size: 1.2vw;
     float: left;
     padding: 0.5vw;
+}
+.item:hover {
+    
 }
 .deleteButton {
     float: right;
@@ -152,11 +196,11 @@ body { -ms-overflow-style: none; }
 }  
 @-webkit-keyframes glow {
     from {
-        text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+        text-shadow: 1px 1px 12px rgba(255,255,255,0.5);
     }
 
     to {
-        text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+        text-shadow: 1px 1px 12px rgba(255,255,255,0.5);
     }
 }
 .rotateLeft {
@@ -193,4 +237,8 @@ body { -ms-overflow-style: none; }
 }
 .closeMenuInitial {
     transform: translateX(20vw);
+}
+.showDelete {
+    display: block;
+    /* opacity: 1.0; */
 }

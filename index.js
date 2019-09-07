@@ -4,8 +4,9 @@ Glow(dataPrinter);
 let allPages = [];
 
 InitializeData();
-allPages = GetTotalPages();
-console.log(allPages);
+window.onload = function () {
+    window.scrollTo(0, 0);
+}
 
 dataPrinter.addEventListener('click', function(){
     Save();
@@ -15,6 +16,14 @@ pageContainer = document.getElementById('pageContainer');
 pageButton = document.getElementById('newPage');
 pageButton.addEventListener('click', createPage);
 Glow(pageButton);
+deletePageButton = document.getElementById('pageDeleteButton');
+deletePageButton.addEventListener('click', function(){
+    console.log(getTotalPages().length);
+    if (getTotalPages().length >= 2) {
+        let closestPage = getTotalPages()[getClosestPage()];
+        closestPage.remove();
+    }
+});
 
 let menuOpen = false;
 let mainMenu = document.getElementById('mainMenu');
@@ -39,8 +48,6 @@ autoLockScroll();
 function createPage() {
     let page = document.createElement('div');
     page.classList.add('page');
-    let deleteButton = createDeleteButton(page);
-    deleteButton.classList.add('pageButton');
 
     let newCardButton = document.createElement('div');
     newCardButton.classList.add('button');
@@ -60,7 +67,7 @@ function createPage() {
     newCardButton.addEventListener('mousedown', function(){
         newCardButton.classList.add('.buttonActive');
     });
-    GetTotalPages();
+    nextPage();
     return page;
 }
 
@@ -81,8 +88,7 @@ function createCard(_page) {
     newItemButton.addEventListener('click', function() {
         createItem(card, '');
     });
-    let deleteButton = createDeleteButton(card);
-    deleteButton.classList.add('cardDeleteButton');
+    // dragElement(card);
     return card;
 }
 
@@ -100,6 +106,7 @@ function createItem(_card, _text) {
 
     itemInput.setAttribute('contentEditable', 'true');
     itemInput.setAttribute('onChange', 'changeItemText');
+    itemInput.setAttribute('spellcheck', 'false');
 
     itemInput.addEventListener('input', function() {
         itemText = itemInput.innerText;
@@ -107,6 +114,18 @@ function createItem(_card, _text) {
     let deleteButton = createDeleteButton(item);
     deleteButton.classList.add('itemButton');
     itemInput.focus();
+    
+    item.addEventListener("keydown", function(event) {
+        if (!event.shiftKey && event.keyCode == 9) {
+            if (item.parentElement.lastChild === item) {
+                event.preventDefault();
+                createItem(_card, '');
+                item.parentElement.lastChild.focus();
+            }
+        }
+        
+    });
+    return itemInput;
 }
 
 function createDeleteButton(_parent) {
@@ -114,13 +133,22 @@ function createDeleteButton(_parent) {
     deleteButton.classList.add('deleteButton');
     deleteButton.classList.add('button');
 
-    let deleteButtonText = document.createTextNode('-');
-    deleteButton.appendChild(deleteButtonText);
-
     _parent.appendChild(deleteButton);
 
     deleteButton.addEventListener('click', function(){
+        if (_parent.parentElement.classList.contains('card')) {
+            console.log(Array.from(_parent.parentElement.getElementsByClassName('item')).length);
+            if (Array.from(_parent.parentElement.getElementsByClassName('item')).length <= 1) {
+                _parent.parentElement.remove();
+            }
+        }
         _parent.remove();
+    });
+    _parent.addEventListener('mouseenter', function(){
+        deleteButton.classList.add('showDelete');
+    });
+    _parent.addEventListener('mouseleave', function(){
+        deleteButton.classList.remove('showDelete');
     });
     Glow(deleteButton);
     return deleteButton;
@@ -163,7 +191,7 @@ function InitializeData() {
     } 
 }
 
-function GetTotalPages() {
+function getTotalPages() {
     let _totalPages = Array.from(document.getElementsByClassName('page'));
     return _totalPages;
 }
@@ -195,12 +223,15 @@ function autoLockScroll() {
     window.addEventListener('scroll', function ( event ) {
         window.clearTimeout( isScrolling );
         isScrolling = setTimeout(function() {
-            scrollMagnet();
+            scrollMagnet(0);
         }, 400);
     }, false);
 }
 function scrollMagnet() {
-    let _pages = GetTotalPages();
+    window.scrollTo(0, getTotalPages()[getClosestPage()].offsetTop);
+}
+function getClosestPage() {
+    let _pages = getTotalPages();    
     let _scrollPos = window.scrollY;
     let _closestPageIndex = 0;
     let _minDist = 100000;
@@ -211,5 +242,9 @@ function scrollMagnet() {
             _closestPageIndex = i;
         }
     }
-    window.scrollTo(0, _pages[_closestPageIndex].offsetTop);
+    return _closestPageIndex;
 }
+function nextPage() {
+    window.scrollTo(0, getTotalPages()[getTotalPages().length - 1].offsetTop);
+}
+
