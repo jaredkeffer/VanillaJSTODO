@@ -56,14 +56,51 @@ body { -ms-overflow-style: none; }
     outline: none;
     height: auto;
     font-size: 1.8vw;
-    text-align: right;
+    /* text-align: right; */
     margin-right: 1vw;
-    margin-bottom: 1vw;
+    margin-bottom: 0.5vw;
 }
 #mainMenu {
     text-align: right;
     width: 15vw;
+    bottom: 2vw;
     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+#backgroundMenu {
+    display: inline-block;
+    text-align: left;
+    background: rgba(255,255,255,0.1);
+    padding: 0.25vw;
+    right: 0.25vw;
+    width: 13vw;
+    border: none;
+    outline: none;
+    height: auto;
+    margin-bottom: 0;
+}
+.backgroundMenuButton {
+    font-size: 1.2vw;
+    text-decoration: none;
+}
+#gradientEditorLink {
+    margin-left: 0.25vw;
+    text-align: right;
+}
+#backgroundInput {
+    color: white;
+    background: rgba(255,255,255,0.3);
+    height: auto;
+    width: 12vw;
+    border: none;
+    outline: none;
+    float: left;
+    padding: 0.5vw;
+    text-decoration: none;
+}
+#backgroundInputText {
+    text-align: left;
+    border: none;
+    outline: none;
 }
 #pageContainer {
     height: 100vh;
@@ -93,19 +130,33 @@ body { -ms-overflow-style: none; }
     width: auto;
     float: right;
     margin-right: 1vw;
+    position: absolute;
+    top: 0vw;
+    right: 0vw;
+}
+.cardContainer {
+    margin: auto;
+    margin-top: 5vh;
+    margin-left: 5vw;
+    width: 90vw;
+    height: 90vh;
+    display: inline-block;
+    overflow: auto;
+    align-items: center;
+    text-align: center;
 }
 .card {
-    height: auto;
-    max-height: 97vh;
+    display: inline-block;
+    height: 38vh;
+    max-height: 38vh;
     overflow: auto;
     width: 15vw;
-    font-size: 2vw;
-    background: rgba(255,255,255,0.2);
+    /* background: rgba(255,255,255,0.2); */
     position: relative;
-    /* position: absolute; */
-    float: left;
-    margin-left: 1vw;
+    vertical-align: top;
+    margin: auto;
     margin-top: 0.5vw;
+    margin-left: 0.5vw;
     padding-left: 0.5vw;
     padding-right: 0.5vw;
     padding-top: 0.5vw;
@@ -135,7 +186,11 @@ body { -ms-overflow-style: none; }
     visibility: none;
 }
 .cardTitle {
-
+    font-size: 2vw;;
+}
+.cardItem {
+    font-size: 1.2vw;    
+    text-align: left;
 }
 .item {
     float: left;
@@ -161,18 +216,13 @@ body { -ms-overflow-style: none; }
 }
 .input {
     color: white;
-    background: rgb(247,109,229);
-    background: linear-gradient(90deg, rgba(247,109,229,1) 0%, rgba(255,0,179,1) 42%, rgba(238,218,174,1) 100%);
+    background: rgba(255,255,255,0.3);
     height: auto;
     width: 14vw;
     border: none;
     outline: none;
-    font-size: 1.2vw;
     float: left;
     padding: 0.5vw;
-}
-.item:hover {
-    
 }
 .deleteButton {
     float: right;

@@ -2,6 +2,25 @@ let DATA = [];
 let dataPrinter = document.getElementById('dataPrinter');
 Glow(dataPrinter);
 let allPages = [];
+let maxCards = 10;
+let backgroundColor = '';
+// backgroundColor = ' linear-gradient(90deg, rgba(148,187,233,1) 0%, rgba(238,174,202,1) 100%);'
+let gradientInput = document.getElementById('backgroundInputText');
+gradientInput.innerText = backgroundColor;
+gradientInput.addEventListener('keydown', function(event){
+    if (event.keyCode == 13) {
+        event.preventDefault();
+        setBackground(gradientInput.innerText);
+        Save();
+    }
+});
+function setBackground(color) {
+    let background = document.getElementById('background');
+    background.style = 'background: '+ color;
+    console.log(background.style.background);
+    gradientInput.innerText = color;
+}
+
 
 InitializeData();
 window.onload = function () {
@@ -48,6 +67,8 @@ autoLockScroll();
 function createPage() {
     let page = document.createElement('div');
     page.classList.add('page');
+    let cardContainer = document.createElement('div');
+    cardContainer.classList.add('cardContainer');
 
     let newCardButton = document.createElement('div');
     newCardButton.classList.add('button');
@@ -57,21 +78,27 @@ function createPage() {
     let newCardText = document.createTextNode('+');
     newCardButton.appendChild(newCardText);
 
+    page.appendChild(cardContainer);
     page.appendChild(newCardButton);
     
     pageContainer.appendChild(page);
     newCardButton.addEventListener('click', function() {
-        let newCard = createCard(page);
-        createItem(newCard, '');
+        if (cardContainer.childNodes.length < maxCards) {
+            let newCard = createCard(cardContainer);
+            let title = createItem(newCard, '');
+            title.classList.add('cardTitle');
+        } else {
+            console.log(cardContainer.childNodes.length);
+        }
     });
     newCardButton.addEventListener('mousedown', function(){
         newCardButton.classList.add('.buttonActive');
     });
     nextPage();
-    return page;
+    return cardContainer;
 }
 
-function createCard(_page) {
+function createCard(_cardContainer) {
     let card = document.createElement('div');
     card.classList.add('card');
 
@@ -83,12 +110,11 @@ function createCard(_page) {
     let newItemText = document.createTextNode('+');
     newItemButton.appendChild(newItemText);
     card.appendChild(newItemButton);
-    _page.appendChild(card);
+    _cardContainer.appendChild(card);
     
     newItemButton.addEventListener('click', function() {
         createItem(card, '');
     });
-    // dragElement(card);
     return card;
 }
 
@@ -100,6 +126,9 @@ function createItem(_card, _text) {
 
     let itemInput = document.createElement('div');
     itemInput.classList.add('input');
+    if (_card.childNodes.length > 1) {
+        itemInput.classList.add('cardItem');
+    }
     itemInput.innerText = itemText;
     item.appendChild(itemInput);
     _card.appendChild(item);
@@ -137,7 +166,9 @@ function createDeleteButton(_parent) {
 
     deleteButton.addEventListener('click', function(){
         if (_parent.parentElement.classList.contains('card')) {
-            console.log(Array.from(_parent.parentElement.getElementsByClassName('item')).length);
+            if (_parent.childNodes[0].classList.contains('cardTitle')) {
+                _parent.parentElement.remove();
+            }
             if (Array.from(_parent.parentElement.getElementsByClassName('item')).length <= 1) {
                 _parent.parentElement.remove();
             }
@@ -155,7 +186,9 @@ function createDeleteButton(_parent) {
 }
 
 function Save() {
-    DATA = [];
+    DATA = {contents: [], background: ''};
+    let background = gradientInput.innerText;
+    DATA.background = background;
     let PAGES = [];
     let pages = Array.from(document.getElementsByClassName('page'));
     pages.forEach(function(page) {
@@ -172,20 +205,31 @@ function Save() {
         });
         PAGES.push(CARDS);
     });
-    DATA.push(PAGES);
+    DATA.contents.push(PAGES);
     window.localStorage.setItem('DATA', JSON.stringify(DATA));
     console.log("Data Saved!");
+    console.log(DATA);
 }
 
 function InitializeData() {
     let _DATA = JSON.parse(window.localStorage.getItem('DATA'));
-    for (i = 0; i < _DATA[0].length; i++) {
-        let _page = createPage();
-        for (j = 0; j < _DATA[0][i].length; j++) {
-            let _card = createCard(_page);
-            for (k = 0; k < _DATA[0][i][j].length; k++) {
-                let _text = _DATA[0][i][j][k].text;
-                createItem(_card, _text);
+    console.log(_DATA);
+    backgroundColor = _DATA.background;
+    setBackground(backgroundColor);
+    for (i = 0; i < _DATA.contents[0].length; i++) {
+        let _cardContainer = createPage();
+        for (j = 0; j < _DATA.contents[0][i].length; j++) {
+            let _card = createCard(_cardContainer);
+            for (k = 0; k < _DATA.contents[0][i][j].length; k++) {
+                if (k === 0) {
+                    let _text = _DATA.contents[0][i][j][k].text;
+                    let _cardTitle = createItem(_card, _text);
+                    _cardTitle.classList.add('cardTitle');
+                } else {
+                    let _text = _DATA.contents[0][i][j][k].text;
+                    let _cardItem = createItem(_card, _text);
+                    _cardItem.classList.add('cardItem');
+                }
             }
         }
     } 
