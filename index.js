@@ -1,6 +1,5 @@
 let DATA = [];
 let dataPrinter = document.getElementById('dataPrinter');
-Glow(dataPrinter);
 let allPages = [];
 let maxCards = 10;
 let backgroundColor = '';
@@ -20,7 +19,10 @@ function setBackground(color) {
     console.log(background.style.background);
     gradientInput.innerText = color;
 }
-
+let transportButtons = Array.from(document.getElementsByClassName('transportButton'));
+transportButtons.forEach(function(button){
+    Glow(button);
+});
 
 InitializeData();
 window.onload = function () {
@@ -59,6 +61,18 @@ settingsGear.addEventListener('click', function(){
         closeMenu(mainMenu);
         settingsGear.classList.remove('rotateLeft');
         settingsGear.classList.add('rotateRight');
+    }
+});
+let helpOpen = false;
+let help = document.getElementById('help');
+let helpBox = document.getElementById('helpBox');
+help.addEventListener('click', function(){
+    if (helpOpen === false) {
+        helpOpen = true;
+        openHelp(helpBox);
+    } else if (helpOpen === true) {
+        helpOpen = false;
+        closeHelp(helpBox);
     }
 });
 
@@ -213,6 +227,10 @@ function Save() {
 
 function InitializeData() {
     let _DATA = JSON.parse(window.localStorage.getItem('DATA'));
+    if (_DATA === null) {
+        createPage();
+        return;
+    }
     console.log(_DATA);
     backgroundColor = _DATA.background;
     setBackground(backgroundColor);
@@ -257,11 +275,21 @@ function openMenu(menu) {
     menu.classList.remove('closeMenuInitial');
     menu.classList.add('openMenu');
 }
-
 function closeMenu(menu) {
     menu.classList.remove('openMenu');
     menu.classList.add('closeMenu');
 }
+
+function openHelp(_helpBox) {
+    _helpBox.classList.remove('closeHelp');
+    _helpBox.classList.remove('closeHelpInitial');
+    _helpBox.classList.add('openHelp');
+}
+function closeHelp(_helpBox) {
+    _helpBox.classList.remove('openHelp');
+    _helpBox.classList.add('closeHelp');
+}
+
 function autoLockScroll() {
     let isScrolling;
     window.addEventListener('scroll', function ( event ) {
